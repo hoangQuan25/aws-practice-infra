@@ -1,0 +1,15 @@
+# Ignore local GitHub configuration, but keep runnable Actions workflows.
+.github/*
+!.github/workflows/
+.github/workflows/*
+!.github/workflows/*.yml
+
+# Reusable textbook templates are not course content.
+/textbook/*-TEMPLATE.md
+
+# Terraform local state, cache, and user-specific variable files.
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+terraform.tfvars.json
