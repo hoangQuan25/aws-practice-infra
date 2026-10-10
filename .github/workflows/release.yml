@@ -17,10 +17,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Bump version and create release
+      - name: Bump version and create tag
+        id: bump
         uses: anothrNick/github-tag-action@1.67.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: = "true"
+          TAG_PREFIX: v
           DEFAULT_BUMP: patch
           INITIAL_VERSION: 1.0.0
+
+      - name: Create GitHub Release
+        if: steps.bump.outputs.new_tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.bump.outputs.new_tag }}
+        run: gh release create "$RELEASE_TAG" --generate-notes --title "$RELEASE_TAG"
